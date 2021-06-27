@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.jkcoxson.camelmod.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "mixedchat",
+    "mixedMessages",
+    "TeamAccessor",
+    "logtheif",
+    "mixedDeath"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

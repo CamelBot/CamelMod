@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "camelmod",
+  "version": "${version}",
+  "name": "Camelmod",
+  "description": "",
+  "authors": [
+    "jkcoxson"
+  ],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/camelmod/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.jkcoxson.camelmod.client.CamelmodClient"
+    ],
+    "main": [
+      "com.jkcoxson.camelmod.Camelmod"
+    ]
+  },
+  "mixins": [
+    "camelmod.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.16.5"
+  }
+}
