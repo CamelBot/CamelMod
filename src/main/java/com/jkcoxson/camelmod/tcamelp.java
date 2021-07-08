@@ -35,6 +35,7 @@ public class tcamelp {
     public static Boolean reconnectpls = true;
     public static Boolean messageShown = false;
 
+
     ////////////////////////////////////////
     public static final String version = "4.0.0";
     ////////////////////////////////////////
@@ -185,7 +186,7 @@ public class tcamelp {
                                         Yeet(toSend.toString());
                                     }
                                     if (packetType.equals("register")){
-                                        LiteralArgumentBuilder<ServerCommandSource> builder = (LiteralArgumentBuilder<ServerCommandSource>) JsonToBrigadier.parse(packet.get("command").getAsString(),ServerCommandSource.class);
+                                        LiteralArgumentBuilder<ServerCommandSource> builder = (LiteralArgumentBuilder<ServerCommandSource>) JsonToBrigadier.parse(packet.get("command").toString(),ServerCommandSource.class);
                                         serverReference.getValue().getCommandManager().getDispatcher().register(builder);
                                         serverReference.getValue().getPlayerManager().getPlayerList().forEach(serverPlayerEntity -> {
                                             serverReference.getValue().getCommandManager().sendCommandTree(serverPlayerEntity);
@@ -195,6 +196,7 @@ public class tcamelp {
                                         });
                                     }
                                     if (packetType.equals("unregister")){
+                                        System.out.println(packet.get("command").getAsString());
                                         try{
                                             CommandRemoval.removeCommand(serverReference.getValue(),packet.get("command").getAsString());
                                             serverReference.getValue().getPlayerManager().getPlayerList().forEach(serverPlayerEntity -> {
