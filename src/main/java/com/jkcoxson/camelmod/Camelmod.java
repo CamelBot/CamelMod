@@ -17,10 +17,6 @@ public class Camelmod implements ModInitializer {
         tcamelp.startHeartbeat();
 
 
-
-
-
-
     }
 
 

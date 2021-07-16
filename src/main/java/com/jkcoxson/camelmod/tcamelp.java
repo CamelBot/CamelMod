@@ -35,7 +35,6 @@ public class tcamelp {
     public static Boolean reconnectpls = true;
     public static Boolean messageShown = false;
 
-
     ////////////////////////////////////////
     public static final String version = "4.0.0";
     ////////////////////////////////////////
@@ -196,7 +195,6 @@ public class tcamelp {
                                         });
                                     }
                                     if (packetType.equals("unregister")){
-                                        System.out.println(packet.get("command").getAsString());
                                         try{
                                             CommandRemoval.removeCommand(serverReference.getValue(),packet.get("command").getAsString());
                                             serverReference.getValue().getPlayerManager().getPlayerList().forEach(serverPlayerEntity -> {
@@ -205,7 +203,16 @@ public class tcamelp {
                                         }catch (Exception e){
                                             System.out.println("Couldn't remove the command: "+e);
                                         }
-
+                                    }
+                                    if (packetType.equals("ready")){
+                                        JsonObject toSend = new JsonObject();
+                                        toSend.addProperty("packet","ready");
+                                        try{
+                                            toSend.addProperty("ready",serverReference.getValue().isRunning());
+                                        }catch (Exception e){
+                                            toSend.addProperty("ready",false);
+                                        }
+                                        Yeet(toSend.toString());
                                     }
 
                                 }catch(Exception e){
@@ -281,9 +288,11 @@ public class tcamelp {
         }
     }
     public static void startHeartbeat(){
+        Boolean readyPacketSent = false;
         new Thread(new Runnable() {
             public void run() {
                 while(reconnectpls){
+
                     if(camalized){
                         Yeet("{\"packet\":\"heartbeat\"}");
                     }
