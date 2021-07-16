@@ -1,5 +1,6 @@
 package com.jkcoxson.camelmod;
 // I hate java, I'd just like to let the world know that.
+import com.google.gson.JsonObject;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -100,8 +101,17 @@ public class CommandReg {
         });
         return 0;
     }
-    public static int camelCommand(CommandContext ctx){
-        System.out.println(ctx.getInput());
+    public static int camelCommand(CommandContext<ServerCommandSource> ctx){
+        JsonObject toSend = new JsonObject();
+        toSend.addProperty("packet","command");
+        toSend.addProperty("command",ctx.getInput());
+        try{
+            toSend.addProperty("sender",ctx.getSource().getPlayer().getDisplayName().getString());
+        }catch (Exception e) {
+            // This means the console ran it
+            toSend.addProperty("sender","console");
+        }
+        tcamelp.Yeet(toSend.toString());
         return 1;
     }
     public static boolean hasAdmin(ServerCommandSource source){

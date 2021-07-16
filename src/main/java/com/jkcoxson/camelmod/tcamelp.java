@@ -185,7 +185,7 @@ public class tcamelp {
                                         Yeet(toSend.toString());
                                     }
                                     if (packetType.equals("register")){
-                                        LiteralArgumentBuilder<ServerCommandSource> builder = (LiteralArgumentBuilder<ServerCommandSource>) JsonToBrigadier.parse(packet.get("command").getAsString(),ServerCommandSource.class);
+                                        LiteralArgumentBuilder<ServerCommandSource> builder = (LiteralArgumentBuilder<ServerCommandSource>) JsonToBrigadier.parse(packet.get("command").toString(),ServerCommandSource.class);
                                         serverReference.getValue().getCommandManager().getDispatcher().register(builder);
                                         serverReference.getValue().getPlayerManager().getPlayerList().forEach(serverPlayerEntity -> {
                                             serverReference.getValue().getCommandManager().sendCommandTree(serverPlayerEntity);
@@ -203,7 +203,16 @@ public class tcamelp {
                                         }catch (Exception e){
                                             System.out.println("Couldn't remove the command: "+e);
                                         }
-
+                                    }
+                                    if (packetType.equals("ready")){
+                                        JsonObject toSend = new JsonObject();
+                                        toSend.addProperty("packet","ready");
+                                        try{
+                                            toSend.addProperty("ready",serverReference.getValue().isRunning());
+                                        }catch (Exception e){
+                                            toSend.addProperty("ready",false);
+                                        }
+                                        Yeet(toSend.toString());
                                     }
 
                                 }catch(Exception e){
@@ -279,9 +288,11 @@ public class tcamelp {
         }
     }
     public static void startHeartbeat(){
+        Boolean readyPacketSent = false;
         new Thread(new Runnable() {
             public void run() {
                 while(reconnectpls){
+
                     if(camalized){
                         Yeet("{\"packet\":\"heartbeat\"}");
                     }
